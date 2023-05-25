@@ -1,8 +1,14 @@
+import defaultTheme from "tailwindcss/defaultTheme";
+
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: ["./src/**/*.{js,jsx,ts,tsx}"],
+  content: ["./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        spaceGrotesk: ['"Space Grotesk"', ...defaultTheme.fontFamily.sans],
+      },
+    },
   },
   plugins: [],
 };
