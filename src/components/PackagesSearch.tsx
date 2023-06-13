@@ -2,8 +2,7 @@ import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import ClipLoader from "react-spinners/ClipLoader";
-import { graphUpdated } from "../stores/packageDependenciesGraph.store";
-import { PackagesGraph } from "../types/packagesGraph.types";
+import { usePackagesGraphContext } from "../hooks/usePackagesGraphContext";
 
 interface PackagesSearchProps {
   className?: string;
@@ -44,6 +43,8 @@ const checkSuggestions = (inputValue: string): string[] | null => {
 };
 
 export const PackagesSearch = ({ className = "" }: PackagesSearchProps) => {
+  const { setPackageForGraph } = usePackagesGraphContext();
+
   const [inputValue, setInputValue] = useState<string>("");
   const [suggestions, setSuggestions] = useState<string[] | null>(null);
   const [packageWasFound, setPackageWasFound] = useState<
@@ -71,47 +72,9 @@ export const PackagesSearch = ({ className = "" }: PackagesSearchProps) => {
   };
 
   const handleVisualize = () => {
-    // TODO: make graph of dependencies
     if (isVisualizing) return;
     setIsVisualizing(true);
-
-    setTimeout(() => {
-      // TODO: replace mock graph with data from database
-      const mockGraph: PackagesGraph = {
-        nodes: [
-          // @ts-ignore
-          { id: 1, label: "bash", title: "node 1 tootip text" },
-          { id: 2, label: "bash parent 1", title: "node 2 tootip text" },
-          { id: 3, label: "bash parent 2", title: "node 3 tootip text" },
-          { id: 4, label: "bash parent 3", title: "node 4 tootip text" },
-          { id: 5, label: "bash parent 4", title: "node 5 tootip text" },
-          { id: 6, label: "node 6", title: "node 6 tootip text" },
-          { id: 7, label: "node 7", title: "node 7 tootip text" },
-          { id: 8, label: "node 8", title: "node 8 tootip text" },
-          { id: 9, label: "node 9", title: "node 9 tootip text" },
-          { id: 10, label: "node 10", title: "node 10 tootip text" },
-          { id: 11, label: "node 11", title: "node 11 tootip text" },
-          { id: 12, label: "node 12", title: "node 12 tootip text" },
-          { id: 13, label: "node 13", title: "node 13 tootip text" },
-        ],
-        edges: [
-          { from: 1, to: 2 },
-          { from: 1, to: 3 },
-          { from: 1, to: 6 },
-          { from: 1, to: 12 },
-          { from: 2, to: 4 },
-          { from: 2, to: 7 },
-          { from: 3, to: 5 },
-          { from: 3, to: 8 },
-          { from: 4, to: 9 },
-          { from: 4, to: 10 },
-          { from: 10, to: 11 },
-          { from: 12, to: 13 },
-        ],
-      };
-      graphUpdated(mockGraph);
-      setIsVisualizing(false);
-    }, 2000);
+    setPackageForGraph(inputValue).finally(() => setIsVisualizing(false));
   };
 
   const onInputKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
@@ -156,6 +119,7 @@ export const PackagesSearch = ({ className = "" }: PackagesSearchProps) => {
           <ul className="absolute left-[410px] right-0 top-[0px] mx-auto max-h-[300px] w-[300px] rounded-[5px] bg-white py-2">
             {suggestions.map((suggestedPackage) => (
               <li
+                key={suggestedPackage}
                 className={`cursor-pointer px-2 py-1 hover:bg-gray-300 ${
                   inputValue === suggestedPackage ? "bg-green-200" : "bg-white"
                 }`}

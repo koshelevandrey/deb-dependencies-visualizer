@@ -3,9 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "start": "react-scripts start",
-    "dev": "react-scripts start",
-    "build": "react-scripts build"
+    "start": "craco start",
+    "build": "craco build",
+    "test": "craco test --env=jsdom",
+    "eject": "craco eject"
   },
   "eslintConfig": {
     "extends": [
@@ -17,6 +18,7 @@
     "production": [
       ">0.2%",
       "not dead",
+      "not ie <= 11",
       "not op_mini all"
     ],
     "development": [
@@ -33,6 +35,8 @@
     "@types/node": "^16.18.32",
     "@types/react": "^18.2.7",
     "@types/react-dom": "^18.2.4",
+    "browserify-fs": "^1.0.0",
+    "buffer": "^6.0.3",
     "effector": "^22.8.6",
     "effector-react": "^22.5.3",
     "react": "^18.2.0",
@@ -41,13 +45,20 @@
     "react-router-dom": "^6.11.2",
     "react-scripts": "5.0.1",
     "react-spinners": "^0.13.8",
+    "sql.js": "^1.8.0",
     "typescript": "^4.9.5",
+    "util": "^0.12.5",
     "uuid": "^9.0.0"
   },
   "devDependencies": {
+    "@craco/craco": "^7.1.0",
+    "@types/sql.js": "^1.4.4",
     "@types/uuid": "^9.0.1",
+    "crypto-browserify": "^3.12.0",
+    "path-browserify": "^1.0.1",
     "prettier": "2.8.8",
     "prettier-plugin-tailwindcss": "^0.2.6",
+    "stream-browserify": "^3.0.0",
     "tailwindcss": "^3.3.2"
   }
 }

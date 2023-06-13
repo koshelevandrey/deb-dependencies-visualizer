@@ -12,3 +12,7 @@ https://deb-dependencies-visualizer.vercel.app/
 - React  
 - TypeScript  
 - Tailwind CSS  
+- SQLite3
+
+## Packages dependencies database
+[Create-packages-dependencies-database](https://github.com/koshelevandrey/create-packages-dependencies-database) tool was used for creating SQLite3 database of packages dependencies 
